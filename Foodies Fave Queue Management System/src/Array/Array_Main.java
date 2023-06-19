@@ -2,6 +2,10 @@ package Array;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 
 public class Array_Main {
@@ -16,6 +20,7 @@ public class Array_Main {
     private static final int MAX_BURGERS_STOCK = 50;
     private static int BURGERS_STOCK = MAX_BURGERS_STOCK;
     private static final int BURGERS_PER_CUSTOMER = 5;
+    private static final String DATABASE_NAME = "Database/DataBase_array.txt";
 
     public static void main(String[] args) {
         System.out.println();
@@ -105,10 +110,64 @@ public class Array_Main {
     }
 
     private static void ReadFromFile() {
+        try {
+            FileReader fileReader = new FileReader(DATABASE_NAME);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            String line;
+            int count = 1;
+            while ((line = bufferedReader.readLine()) != null) {
+                // Get each line of the file
+                if (count==1){
+                    BURGERS_STOCK = Integer.parseInt(line);
+                    count++;
+                }else {
+                    String[] saved_names = line.split(",");
+                    for (int i = 0; i < queue1.length; i++) {
+                        queue1[i] = saved_names[i];
+                    }
+
+                    for (int i = 0; i < queue2.length; i++) {
+                        queue2[i] = saved_names[i + queue1.length];
+                    }
+
+                    for (int i = 0; i < queue3.length; i++) {
+                        queue3[i] = saved_names[i + queue1.length + queue2.length];
+                    }
+                }
+            }
+            // Close the buffered reader
+            bufferedReader.close();
+            System.out.println("Successfully update the system using data!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void saveToFile() {
+        try {
+            FileWriter fileWriter = new FileWriter(DATABASE_NAME);
+            // Write the data to the file
+            fileWriter.write(BURGERS_STOCK+ "\n");
+            String temp_data = "";
+            temp_data=nameMergeForSave(temp_data,queue1);
+            temp_data=nameMergeForSave(temp_data,queue2);
+            temp_data=nameMergeForSave(temp_data,queue3);
+            fileWriter.write(temp_data);
+            fileWriter.close();
+            System.out.println("Data has been saved to the file.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    private static String nameMergeForSave(String tempData, String[] queueType) {
+        for (String name:queueType){
+            tempData=tempData + name+",";
+        }
+        return tempData;
+    }
+
 
     private static void removeServedCustomer() {
     }

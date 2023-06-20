@@ -33,37 +33,66 @@ public class Array_Main {
                 loopControl = false;
                 System.out.print("Enter your choice: ");
                 String tempInput = scan.next().toUpperCase();
-                if (tempInput.equals("101") || tempInput.equals("VEQ")) {
-                    viewAllEmptyQueues();
-                } else if (tempInput.equals("102") || tempInput.equals("ACQ")) {
-                    addCustomerToQueue();
-                } else if (tempInput.equals("103") || tempInput.equals("RCQ")) {
-                    removeCustomerFromQueue();
-                } else if (tempInput.equals("104") || tempInput.equals("PCQ")) {
-                    removeServedCustomer();
-                } else if (tempInput.equals("105") || tempInput.equals("VCS")) {
-                    customersSortedInAlphabetical();
-                } else if (tempInput.equals("106") || tempInput.equals("SPD")) {
-                    saveToFile();
-                } else if (tempInput.equals("107") || tempInput.equals("LPD")) {
-                    ReadFromFile();
-                } else if (tempInput.equals("108") || tempInput.equals("STK")) {
-                    viewRemainingBurgersStock();
-                } else if (tempInput.equals("109") || tempInput.equals("AFS")) {
-                    addBurgersToStock();
-                } else if (tempInput.equals("999") || tempInput.equals("EXT")) {
-                    //Terminate the program
-                    System.exit(0);
-                } else {
-                    //Not breaking Input validating loop
-                    loopControl = true;
-                    System.out.println("please enter correct option !!!");
+                switch (tempInput) {
+                    case "100", "VFQ" -> viewAllQueues();
+                    case "101", "VEQ" -> viewAllEmptyQueues();
+                    case "102", "ACQ" -> addCustomerToQueue();
+                    case "103", "RCQ" -> removeCustomerFromQueue();
+                    case "104", "PCQ" -> removeServedCustomer();
+                    case "105", "VCS" -> customersSortedInAlphabetical();
+                    case "106", "SPD" -> saveToFile();
+                    case "107", "LPD" -> ReadFromFile();
+                    case "108", "STK" -> viewRemainingBurgersStock();
+                    case "109", "AFS" -> addBurgersToStock();
+                    case "999", "EXT" ->
+                        //Terminate the program
+                            System.exit(0);
+                    default -> {
+                        //Not breaking Input validating loop
+                        loopControl = true;
+                        System.out.println("please enter correct option !!!");
+                    }
                 }
             }
 
             System.out.println();
         }
 
+    }
+
+    private static void viewAllQueues() {
+        System.out.println("   *****************");
+        System.out.println("   *    Cashiers   *");
+        System.out.println("   *****************");
+
+        int maxLines = Math.max(queue1.length, Math.max(queue2.length, queue3.length));
+        for (int count = 0; count < maxLines; count++) {
+            System.out.print("      ");
+            if (count < queue1.length) {
+                if (queue1[count] == null) {
+                    System.out.print("X");
+                }
+            } else {
+                System.out.print(" ");
+            }
+            System.out.print("    ");
+            if (count < queue2.length) {
+                if (queue2[count] == null) {
+                    System.out.print("X");
+                }
+            } else {
+                System.out.print(" ");
+            }
+            System.out.print("    ");
+            if (count < queue3.length) {
+                if (queue3[count] == null) {
+                    System.out.print("X");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println("   *****************");
+        System.out.println(" X – Not Occupied O – Occupied");
     }
 
     private static void addBurgersToStock() {
@@ -104,7 +133,6 @@ public class Array_Main {
         }
     }
 
-
     private static void viewRemainingBurgersStock() {
         System.out.println("Remaining burgers Stock: " + BURGERS_STOCK);
     }
@@ -118,10 +146,10 @@ public class Array_Main {
             int count = 1;
             while ((line = bufferedReader.readLine()) != null) {
                 // Get each line of the file
-                if (count==1){
+                if (count == 1) {
                     BURGERS_STOCK = Integer.parseInt(line);
                     count++;
-                }else {
+                } else {
                     String[] saved_names = line.split(",");
                     for (int i = 0; i < queue1.length; i++) {
                         queue1[i] = saved_names[i];
@@ -148,11 +176,11 @@ public class Array_Main {
         try {
             FileWriter fileWriter = new FileWriter(DATABASE_NAME);
             // Write the data to the file
-            fileWriter.write(BURGERS_STOCK+ "\n");
+            fileWriter.write(BURGERS_STOCK + "\n");
             String temp_data = "";
-            temp_data=nameMergeForSave(temp_data,queue1);
-            temp_data=nameMergeForSave(temp_data,queue2);
-            temp_data=nameMergeForSave(temp_data,queue3);
+            temp_data = nameMergeForSave(temp_data, queue1);
+            temp_data = nameMergeForSave(temp_data, queue2);
+            temp_data = nameMergeForSave(temp_data, queue3);
             fileWriter.write(temp_data);
             fileWriter.close();
             System.out.println("Data has been saved to the file.");
@@ -162,8 +190,8 @@ public class Array_Main {
     }
 
     private static String nameMergeForSave(String tempData, String[] queueType) {
-        for (String name:queueType){
-            tempData=tempData + name+",";
+        for (String name : queueType) {
+            tempData = tempData + name + ",";
         }
         return tempData;
     }
@@ -173,24 +201,117 @@ public class Array_Main {
     }
 
     private static void customersSortedInAlphabetical() {
+        // Sort the list
+        bubbleSort(queue1, "Queue 1");
+        bubbleSort(queue2, "Queue 2");
+        bubbleSort(queue3, "Queue 3");
+    }
+
+    public static void bubbleSort(String[] arr, String queueType) {
+        String[] tempArr = arr.clone();
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = 0; j < arr.length - i - 1; j++) {
+                if (arr[j] == null || (arr[j + 1] != null && arr[j].compareTo(arr[j + 1]) > 0)) {
+                    // Swap elements if they are in the wrong order
+                    String temp = tempArr[j];
+                    tempArr[j] = tempArr[j + 1];
+                    tempArr[j + 1] = temp;
+                }
+            }
+        }
+        printSortQueue(queueType, tempArr);
+    }
+
+    private static void printSortQueue(String queueType, String[] tempArr) {
+        System.out.print(queueType + " : ");
+        int count = 0;
+        // Print the sorted list
+        for (String str : tempArr) {
+            if (str == null) {
+                System.out.print("Not Occupied");
+            } else {
+                System.out.print(str);
+            }
+            if (!(count == (tempArr.length - 1))) {
+                System.out.print(", ");
+            }
+            count++;
+        }
+        System.out.println();
     }
 
     private static void removeCustomerFromQueue() {
     }
 
     private static void addCustomerToQueue() {
+        if (checkAvailable()){
+            System.out.print("Enter Customer name : ");
+            String userName = scan.next();
+            int cashierNumber = 0;
+            while (true) {
+                System.out.print("Enter relevant cashier [1,2,3]: ");
+                try {
+                    cashierNumber = scan.nextInt();
+                    if (cashierNumber == 1 || cashierNumber == 2 || cashierNumber == 3){
+                        break;
+                    }
+                    System.out.println("Please enter correct cashier number");
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input! Please enter a valid number.");
+                    // Clear the invalid input from the scanner
+                    scan.next();
+                }
+            }
+            if (cashierNumber == 1){
+                queue1[]
+            }
+        }
+    }
+
+    private static boolean checkAvailable() {
+        boolean avaliable;
+        avaliable = checkEachQueue(queue1,"Queue 1");
+        avaliable = checkEachQueue(queue2,"Queue 2");
+        avaliable = checkEachQueue(queue3,"Queue 3");
+        return avaliable;
+    }
+
+    private static boolean checkEachQueue(String[] queueType, String queueName) {
+        for (String name:queueType){
+            if (name==null){
+                System.out.println("");
+                return true;
+            }
+        }
     }
 
     private static void viewAllEmptyQueues() {
+        checkQueueEmpty(queue1, "Queue 1");
+        checkQueueEmpty(queue2, "Queue 2");
+        checkQueueEmpty(queue3, "Queue 3");
     }
 
+    private static void checkQueueEmpty(String[] queueType, String queueName) {
+        boolean queueEmpty = false;
+        for (String name : queueType) {
+            if (name != null) {
+                queueEmpty = true;
+                break;
+            }
+        }
+        if (queueEmpty) {
+            System.out.println(queueName + " all slots free.");
+        }
+    }
 
     private static void displayMenu() {
         System.out.println("Foodies Fave Queue Management System\n");
         System.out.println("Menu:");
+        System.out.println("100 or VFQ: View all Queues");
         System.out.println("101 or VEQ: View all Empty Queues");
         System.out.println("102 or ACQ: Add customer to a Queue");
-        System.out.println("103 or RCQ: Remove a customer from a Queue (From a specific location)");
+        System.out.println("103 or RCQ: Remove a customer fr" +
+                "om a Queue (From a specific location)");
         System.out.println("104 or PCQ: Remove a served customer");
         System.out.println("105 or VCS: View Customers Sorted in alphabetical order");
         System.out.println("106 or SPD: Store Program Data into file");

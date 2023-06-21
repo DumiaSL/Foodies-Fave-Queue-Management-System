@@ -54,10 +54,8 @@ public class Array_Main {
                     }
                 }
             }
-
             System.out.println();
         }
-
     }
 
     private static void viewAllQueues() {
@@ -152,15 +150,27 @@ public class Array_Main {
                 } else {
                     String[] saved_names = line.split(",");
                     for (int i = 0; i < queue1.length; i++) {
-                        queue1[i] = saved_names[i];
+                        if (saved_names[i].equals("null")){
+                            queue1[i] = null;
+                        }else {
+                            queue1[i] = saved_names[i];
+                        }
                     }
 
                     for (int i = 0; i < queue2.length; i++) {
-                        queue2[i] = saved_names[i + queue1.length];
+                        if (saved_names[i + queue1.length].equals("null")){
+                            queue2[i] = null;
+                        }else {
+                            queue2[i] = saved_names[i + queue1.length];
+                        }
                     }
 
                     for (int i = 0; i < queue3.length; i++) {
-                        queue3[i] = saved_names[i + queue1.length + queue2.length];
+                        if (saved_names[i + queue1.length + queue2.length].equals("null")){
+                            queue3[i] = null;
+                        }else {
+                            queue3[i] = saved_names[i + queue1.length + queue2.length];
+                        }
                     }
                 }
             }
@@ -262,27 +272,47 @@ public class Array_Main {
                     scan.next();
                 }
             }
+
             if (cashierNumber == 1){
-                queue1[]
+                if (checkEachQueue(queue1,"Cashier Queue 1",false)){
+
+                }else {
+
+                }
+            } else if (cashierNumber == 2){
+                if (checkEachQueue(queue2,"Cashier Queue 2",false)){
+
+                }else {
+
+                }
+            }else {
+                if (checkEachQueue(queue3,"Cashier Queue 3",false)){
+
+                }else {
+
+                }
             }
+        }else {
+            System.out.println("All Cashiers not available!!");
         }
     }
 
     private static boolean checkAvailable() {
         boolean avaliable;
-        avaliable = checkEachQueue(queue1,"Queue 1");
-        avaliable = checkEachQueue(queue2,"Queue 2");
-        avaliable = checkEachQueue(queue3,"Queue 3");
+        avaliable = checkEachQueue(queue1,"Cashier Queue 1",true);
+        avaliable = checkEachQueue(queue2,"Cashier Queue 2", true);
+        avaliable = checkEachQueue(queue3,"Cashier Queue 3", true);
         return avaliable;
     }
 
-    private static boolean checkEachQueue(String[] queueType, String queueName) {
+    private static boolean checkEachQueue(String[] queueType, String queueName, boolean firstCheck) {
         for (String name:queueType){
             if (name==null){
-                System.out.println("");
+                if (firstCheck) System.out.println(queueName + " available");
                 return true;
             }
         }
+        return false;
     }
 
     private static void viewAllEmptyQueues() {
@@ -310,8 +340,7 @@ public class Array_Main {
         System.out.println("100 or VFQ: View all Queues");
         System.out.println("101 or VEQ: View all Empty Queues");
         System.out.println("102 or ACQ: Add customer to a Queue");
-        System.out.println("103 or RCQ: Remove a customer fr" +
-                "om a Queue (From a specific location)");
+        System.out.println("103 or RCQ: Remove a customer from a Queue (From a specific location)");
         System.out.println("104 or PCQ: Remove a served customer");
         System.out.println("105 or VCS: View Customers Sorted in alphabetical order");
         System.out.println("106 or SPD: Store Program Data into file");

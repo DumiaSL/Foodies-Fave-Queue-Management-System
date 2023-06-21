@@ -220,13 +220,18 @@ public class Array_Main {
     public static void bubbleSort(String[] arr, String queueType) {
         String[] tempArr = arr.clone();
         for (int i = 0; i < arr.length - 1; i++) {
+            boolean checkFlag = false;
             for (int j = 0; j < arr.length - i - 1; j++) {
-                if (arr[j] == null || (arr[j + 1] != null && arr[j].compareTo(arr[j + 1]) > 0)) {
+                if (arr[j] == null || (arr[j + 1] != null && arr[j].compareToIgnoreCase(arr[j + 1]) > 0)) {
                     // Swap elements if they are in the wrong order
                     String temp = tempArr[j];
                     tempArr[j] = tempArr[j + 1];
                     tempArr[j + 1] = temp;
+                    checkFlag = true;
                 }
+            }
+            if (!checkFlag){
+                break;
             }
         }
         printSortQueue(queueType, tempArr);
@@ -299,9 +304,7 @@ public class Array_Main {
 
     private static boolean checkAvailable() {
         boolean avaliable;
-        avaliable = checkEachQueue(queue1,"Cashier Queue 1",true);
-        avaliable = checkEachQueue(queue2,"Cashier Queue 2", true);
-        avaliable = checkEachQueue(queue3,"Cashier Queue 3", true);
+        avaliable = checkEachQueue(queue1,"Cashier Queue 1",true)||checkEachQueue(queue2,"Cashier Queue 2", true)||checkEachQueue(queue3,"Cashier Queue 3", true);
         return avaliable;
     }
 

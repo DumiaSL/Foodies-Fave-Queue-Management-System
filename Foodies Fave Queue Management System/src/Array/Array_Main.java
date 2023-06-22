@@ -214,6 +214,55 @@ public class Array_Main {
 
 
     private static void removeServedCustomer() {
+        int cashierNumber;
+        while (true) {
+            System.out.print("Enter relevant cashier want to served [1,2,3]: ");
+            try {
+                cashierNumber = scan.nextInt();
+                if (cashierNumber == 1 || cashierNumber == 2 || cashierNumber == 3){
+                    break;
+                }
+                System.out.println("Please enter correct cashier number");
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid number.");
+                // Clear the invalid input from the scanner
+                scan.next();
+            }
+        }
+
+        if (cashierNumber == 1){
+            servedCashier(queue1);
+        } else if (cashierNumber == 2){
+            servedCashier(queue2);
+        }else {
+            servedCashier(queue3);
+        }
+    }
+
+    private static void servedCashier(String[] queueType) {
+        boolean checkFlag = false;
+        for (String name:queueType){
+            if (!(name==null)){
+                checkFlag=true;
+                break;
+            }
+        }
+        if (checkFlag){
+            // Remove the first element
+            for (int i = 0; i < queueType.length - 1; i++) {
+                queueType[i] = queueType[i + 1];
+            }
+
+            // Set the last element to null or an empty string
+            queueType[queueType.length - 1] = null;
+            BURGERS_STOCK = BURGERS_STOCK - BURGERS_PER_CUSTOMER;
+            if (BURGERS_STOCK <=10){
+                System.out.println("Low burger stock!!!");
+            }
+
+        }else {
+            System.out.println("No customer in this Cashier");
+        }
     }
 
     private static void customersSortedInAlphabetical() {
@@ -268,7 +317,7 @@ public class Array_Main {
         if (checkAvailable()){
             System.out.print("Enter Customer name : ");
             String userName = scan.next();
-            int cashierNumber = 0;
+            int cashierNumber;
             while (true) {
                 System.out.print("Enter relevant cashier [1,2,3]: ");
                 try {

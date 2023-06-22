@@ -69,6 +69,8 @@ public class Array_Main {
             if (count < queue1.length) {
                 if (queue1[count] == null) {
                     System.out.print("X");
+                }else {
+                    System.out.print("O");
                 }
             } else {
                 System.out.print(" ");
@@ -77,6 +79,8 @@ public class Array_Main {
             if (count < queue2.length) {
                 if (queue2[count] == null) {
                     System.out.print("X");
+                }else {
+                    System.out.print("O");
                 }
             } else {
                 System.out.print(" ");
@@ -85,6 +89,8 @@ public class Array_Main {
             if (count < queue3.length) {
                 if (queue3[count] == null) {
                     System.out.print("X");
+                }else {
+                    System.out.print("O");
                 }
             }
             System.out.println();
@@ -279,39 +285,37 @@ public class Array_Main {
             }
 
             if (cashierNumber == 1){
-                if (checkEachQueue(queue1,"Cashier Queue 1",false)){
-
-                }else {
-
-                }
+                if (setName(queue1,userName)) System.out.println("Sorry! No slots in Cashier 1");
             } else if (cashierNumber == 2){
-                if (checkEachQueue(queue2,"Cashier Queue 2",false)){
-
-                }else {
-
-                }
+                if (setName(queue2,userName)) System.out.println("Sorry! No slots in Cashier 2");
             }else {
-                if (checkEachQueue(queue3,"Cashier Queue 3",false)){
-
-                }else {
-
-                }
+                if (setName(queue1,userName)) System.out.println("Sorry! No slots in Cashier 3");
             }
         }else {
             System.out.println("All Cashiers not available!!");
         }
     }
 
+    private static boolean setName(String[] queueType, String userName) {
+        for (int index=0;index< queueType.length;index++){
+            if (queueType[index]==null){
+                queueType[index]=userName;
+                return false;
+            }
+        }
+        return true;
+    }
+
     private static boolean checkAvailable() {
         boolean avaliable;
-        avaliable = checkEachQueue(queue1,"Cashier Queue 1",true)||checkEachQueue(queue2,"Cashier Queue 2", true)||checkEachQueue(queue3,"Cashier Queue 3", true);
+        avaliable = checkEachQueue(queue1,"Cashier Queue 1")|checkEachQueue(queue2,"Cashier Queue 2")|checkEachQueue(queue3,"Cashier Queue 3");
         return avaliable;
     }
 
-    private static boolean checkEachQueue(String[] queueType, String queueName, boolean firstCheck) {
+    private static boolean checkEachQueue(String[] queueType, String queueName) {
         for (String name:queueType){
             if (name==null){
-                if (firstCheck) System.out.println(queueName + " available");
+                System.out.println(queueName + " available");
                 return true;
             }
         }

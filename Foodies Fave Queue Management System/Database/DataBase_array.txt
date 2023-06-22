@@ -1,2 +1,2 @@
 50
-kesha,chamia,dumia,null,null,null,null,null,null,null,
+chamia,3,dumia,null,null,hj,fdsf,du,nll,null

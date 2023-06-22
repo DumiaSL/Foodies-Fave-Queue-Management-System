@@ -194,9 +194,7 @@ public class Array_Main {
             // Write the data to the file
             fileWriter.write(BURGERS_STOCK + "\n");
             String temp_data = "";
-            temp_data = nameMergeForSave(temp_data, queue1);
-            temp_data = nameMergeForSave(temp_data, queue2);
-            temp_data = nameMergeForSave(temp_data, queue3);
+            temp_data = String.join(",",queue1)+","+String.join(",",queue2)+","+String.join(",",queue3);
             fileWriter.write(temp_data);
             fileWriter.close();
             System.out.println("Data has been saved to the file.");
@@ -204,14 +202,6 @@ public class Array_Main {
             e.printStackTrace();
         }
     }
-
-    private static String nameMergeForSave(String tempData, String[] queueType) {
-        for (String name : queueType) {
-            tempData = tempData + name + ",";
-        }
-        return tempData;
-    }
-
 
     private static void removeServedCustomer() {
         int cashierNumber;
@@ -259,7 +249,6 @@ public class Array_Main {
             if (BURGERS_STOCK <=10){
                 System.out.println("Low burger stock!!!");
             }
-
         }else {
             System.out.println("No customer in this Cashier");
         }
@@ -311,6 +300,56 @@ public class Array_Main {
     }
 
     private static void removeCustomerFromQueue() {
+        String removeName;
+        while (true){
+            System.out.print("Enter the name of the customer to remove: ");
+            removeName = scan.next();
+            if (!removeName.isEmpty()){
+                break;
+            }else {
+                System.out.println("Enter correct name!!");
+            }
+        }
+
+        int cashierNumber;
+        while (true) {
+            System.out.print("Enter relevant cashier want to served [1,2,3]: ");
+            try {
+                cashierNumber = scan.nextInt();
+                if (cashierNumber == 1 || cashierNumber == 2 || cashierNumber == 3){
+                    break;
+                }
+                System.out.println("Please enter correct cashier number");
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid number.");
+                // Clear the invalid input from the scanner
+                scan.next();
+            }
+        }
+
+        if (cashierNumber == 1){
+            removeCustomer(queue1,removeName);
+        } else if (cashierNumber == 2){
+            removeCustomer(queue2,removeName);
+        }else {
+            removeCustomer(queue3,removeName);
+        }
+    }
+
+    private static void removeCustomer(String[] queueType, String removeName) {
+        boolean checkFlag = false;
+        for (int index=0;index<queueType.length-1; index++){
+            if ( ((queueType[index]!=null) && queueType[index].equals(removeName)) || checkFlag) {
+                checkFlag = true;
+                queueType[index]=queueType[index+1];
+            }
+        }
+        if (checkFlag){
+            queueType[queueType.length - 1] = null;
+            System.out.println("Successfully removed customer "+ removeName);
+        }else {
+            System.out.println("Any customer not found in this cashier");
+        }
     }
 
     private static void addCustomerToQueue() {
@@ -338,7 +377,7 @@ public class Array_Main {
             } else if (cashierNumber == 2){
                 if (setName(queue2,userName)) System.out.println("Sorry! No slots in Cashier 2");
             }else {
-                if (setName(queue1,userName)) System.out.println("Sorry! No slots in Cashier 3");
+                if (setName(queue3,userName)) System.out.println("Sorry! No slots in Cashier 3");
             }
         }else {
             System.out.println("All Cashiers not available!!");

@@ -359,10 +359,31 @@ public class Queue_Management_System {
 
     private static void addCustomerToQueue() {
         if (checkAvailable()){
-            System.out.print("Enter Customer name : ");
-            String userName = scan.next();
+            while (true){
+                System.out.print("Enter Customer First name : ");
+                String userFirstName = scan.next();
+            }
 
+            System.out.print("Enter Customer Second name : ");
+            String userSecondName = scan.next();
 
+            System.out.print("Enter Number of burgers : ");
+            int noBurgers = scan.nextInt();
+
+            int freeQueue1 = getFreesLots(queue1);
+            int freeQueue2 = getFreesLots(queue2);
+            int freeQueue3 = getFreesLots(queue3);
+
+            int cashierNumber = 0;
+            int minNumber = Integer.MAX_VALUE;
+            int[] freeQueueArray = {freeQueue1, freeQueue2, freeQueue3};
+
+            for (int i = 0; i < freeQueueArray.length; i++) {
+                if (freeQueueArray[i] < minNumber) {
+                    minNumber = freeQueueArray[i];
+                    cashierNumber = i + 1;
+                }
+            }
 
             if (cashierNumber == 1){
                 if (setName(queue1,userName)) System.out.println("Sorry! No slots in Cashier 1");
@@ -376,10 +397,20 @@ public class Queue_Management_System {
         }
     }
 
-    private static boolean setName(String[] queueType, String userName) {
+    private static int getFreesLots(FoodQueue[] queueType) {
+        int count=0;
+        for (FoodQueue order:queueType){
+            if (order==null){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private static boolean setName(FoodQueue[] queueType, String userName) {
         for (int index=0;index< queueType.length;index++){
-            if (queueType[index]==null){
-                queueType[index]=userName;
+            if (queueType[index] == null){
+                queueType[index] = userName;
                 return false;
             }
         }
@@ -388,7 +419,7 @@ public class Queue_Management_System {
 
     private static boolean checkAvailable() {
         boolean avaliable;
-        avaliable = checkEachQueue(queue1,"Cashier Queue 1")|checkEachQueue(queue2,"Cashier Queue 2")|checkEachQueue(queue3,"Cashier Queue 3");
+        avaliable = checkEachQueue(queue1,"Cashier Queue 1")|checkEachQueue(queue2,"Cashier Queue 2")| checkEachQueue(queue3,"Cashier Queue 3");
         return avaliable;
     }
 

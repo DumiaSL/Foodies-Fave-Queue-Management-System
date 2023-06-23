@@ -12,15 +12,16 @@ public class Queue_Management_System {
     // Create a Scanner object to read user input
     public static Scanner scan = new Scanner(System.in);
     // Arrays to store customer names and queue information
-    private static String[] queue1 = new String[2];
-    private static String[] queue2 = new String[3];
-    private static String[] queue3 = new String[5];
+    private static FoodQueue[] queue1 = new FoodQueue[2];
+    private static FoodQueue[] queue2 = new FoodQueue[3];
+    private static FoodQueue[] queue3 = new FoodQueue[5];
 
     // Stock information
     private static final int MAX_BURGERS_STOCK = 50;
+    private static final int MAX_PRICE_EACH_BURGER = 650;
     private static int BURGERS_STOCK = MAX_BURGERS_STOCK;
     private static final int BURGERS_PER_CUSTOMER = 5;
-    private static final String DATABASE_NAME = "Database/DataBase_array.txt";
+    private static final String DATABASE_NAME = "Database/DataBase_class.txt";
 
     public static void main(String[] args) {
         System.out.println();
@@ -44,6 +45,7 @@ public class Queue_Management_System {
                     case "107", "LPD" -> ReadFromFile();
                     case "108", "STK" -> viewRemainingBurgersStock();
                     case "109", "AFS" -> addBurgersToStock();
+                    case "110", "IFQ" -> checkIncomeEachQueue();
                     case "999", "EXT" ->
                         //Terminate the program
                             System.exit(0);
@@ -56,6 +58,9 @@ public class Queue_Management_System {
             }
             System.out.println();
         }
+    }
+
+    private static void checkIncomeEachQueue() {
     }
 
     private static void viewAllQueues() {
@@ -356,21 +361,8 @@ public class Queue_Management_System {
         if (checkAvailable()){
             System.out.print("Enter Customer name : ");
             String userName = scan.next();
-            int cashierNumber;
-            while (true) {
-                System.out.print("Enter relevant cashier [1,2,3]: ");
-                try {
-                    cashierNumber = scan.nextInt();
-                    if (cashierNumber == 1 || cashierNumber == 2 || cashierNumber == 3){
-                        break;
-                    }
-                    System.out.println("Please enter correct cashier number");
-                } catch (InputMismatchException e) {
-                    System.out.println("Invalid input! Please enter a valid number.");
-                    // Clear the invalid input from the scanner
-                    scan.next();
-                }
-            }
+
+
 
             if (cashierNumber == 1){
                 if (setName(queue1,userName)) System.out.println("Sorry! No slots in Cashier 1");
@@ -400,9 +392,10 @@ public class Queue_Management_System {
         return avaliable;
     }
 
-    private static boolean checkEachQueue(String[] queueType, String queueName) {
-        for (String name:queueType){
-            if (name==null){
+    private static boolean checkEachQueue(FoodQueue[] queueType, String queueName) {
+        int count = 0;
+        for (FoodQueue order:queueType){
+            if (order==null){
                 System.out.println(queueName + " available");
                 return true;
             }
@@ -416,10 +409,10 @@ public class Queue_Management_System {
         checkQueueEmpty(queue3, "Queue 3");
     }
 
-    private static void checkQueueEmpty(String[] queueType, String queueName) {
+    private static void checkQueueEmpty(FoodQueue[] queueType, String queueName) {
         boolean queueEmpty = false;
-        for (String name : queueType) {
-            if (name != null) {
+        for (FoodQueue order : queueType) {
+            if (order != null) {
                 queueEmpty = true;
                 break;
             }

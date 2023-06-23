@@ -1,15 +1,14 @@
-package Array;
+package Class;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 
-
-public class Array_Main {
+public class Queue_Management_System {
     // Create a Scanner object to read user input
     public static Scanner scan = new Scanner(System.in);
     // Arrays to store customer names and queue information

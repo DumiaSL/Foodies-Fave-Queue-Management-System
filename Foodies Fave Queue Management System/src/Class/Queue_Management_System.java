@@ -266,14 +266,14 @@ public class Queue_Management_System {
         bubbleSort(queue3, "Queue 3");
     }
 
-    public static void bubbleSort(String[] arr, String queueType) {
-        String[] tempArr = arr.clone();
+    public static void bubbleSort(FoodQueue[] arr, String queueType) {
+        FoodQueue[] tempArr = arr.clone();
         for (int i = 0; i < arr.length - 1; i++) {
             boolean checkFlag = false;
             for (int j = 0; j < arr.length - i - 1; j++) {
-                if (arr[j] == null || (arr[j + 1] != null && arr[j].compareToIgnoreCase(arr[j + 1]) > 0)) {
+                if (arr[j] == null || (arr[j + 1] != null && (arr[j].customer.firstName+" "+ arr[j].customer.lastName).compareToIgnoreCase(arr[j + 1].customer.firstName+" "+ arr[j+1].customer.lastName) > 0)) {
                     // Swap elements if they are in the wrong order
-                    String temp = tempArr[j];
+                    FoodQueue temp = tempArr[j];
                     tempArr[j] = tempArr[j + 1];
                     tempArr[j + 1] = temp;
                     checkFlag = true;
@@ -286,15 +286,15 @@ public class Queue_Management_System {
         printSortQueue(queueType, tempArr);
     }
 
-    private static void printSortQueue(String queueType, String[] tempArr) {
+    private static void printSortQueue(String queueType, FoodQueue[] tempArr) {
         System.out.print(queueType + " : ");
         int count = 0;
         // Print the sorted list
-        for (String str : tempArr) {
-            if (str == null) {
+        for (FoodQueue order : tempArr) {
+            if (order == null) {
                 System.out.print("Not Occupied");
             } else {
-                System.out.print(str);
+                System.out.print(order.customer.firstName+" "+ order.customer.lastName);
             }
             if (!(count == (tempArr.length - 1))) {
                 System.out.print(", ");

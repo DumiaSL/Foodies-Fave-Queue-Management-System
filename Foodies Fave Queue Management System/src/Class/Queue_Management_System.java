@@ -359,16 +359,26 @@ public class Queue_Management_System {
 
     private static void addCustomerToQueue() {
         if (checkAvailable()){
-            while (true){
-                System.out.print("Enter Customer First name : ");
-                String userFirstName = scan.next();
+            String firstName = getValidateName("First");
+            String secondName = getValidateName("Second");
+
+            int noBurgers;
+
+            while (true) {
+                System.out.print("Enter Number of burgers : ");
+                try {
+                    noBurgers = scan.nextInt();
+                    if (noBurgers<=MAX_BURGERS_STOCK){
+                        break;
+                    }else {
+                        System.out.println("Please enter <"+MAX_BURGERS_STOCK+" orders");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input! Please enter a valid number.");
+                    // Clear the invalid input from the scanner
+                    scan.next();
+                }
             }
-
-            System.out.print("Enter Customer Second name : ");
-            String userSecondName = scan.next();
-
-            System.out.print("Enter Number of burgers : ");
-            int noBurgers = scan.nextInt();
 
             int freeQueue1 = getFreesLots(queue1);
             int freeQueue2 = getFreesLots(queue2);
@@ -386,15 +396,29 @@ public class Queue_Management_System {
             }
 
             if (cashierNumber == 1){
-                if (setName(queue1,userName)) System.out.println("Sorry! No slots in Cashier 1");
+                if (setName(queue1,firstName,secondName,noBurgers)) System.out.println("Sorry! No slots in Cashier 1");
             } else if (cashierNumber == 2){
-                if (setName(queue2,userName)) System.out.println("Sorry! No slots in Cashier 2");
+                if (setName(queue2, firstName, secondName, noBurgers)) System.out.println("Sorry! No slots in Cashier 2");
             }else {
-                if (setName(queue3,userName)) System.out.println("Sorry! No slots in Cashier 3");
+                if (setName(queue3, firstName, secondName, noBurgers)) System.out.println("Sorry! No slots in Cashier 3");
             }
         }else {
             System.out.println("All Cashiers not available!!");
         }
+    }
+
+    private static String getValidateName(String nameType) {
+        String userName;
+        while (true){
+            System.out.print("Enter Customer "+nameType+" name : ");
+            userName = scan.next();
+            if (!userName.isEmpty()){
+                break;
+            }else {
+                System.out.println("Wrong !Enter "+ nameType +" name correctly");
+            }
+        }
+        return userName;
     }
 
     private static int getFreesLots(FoodQueue[] queueType) {
@@ -407,10 +431,11 @@ public class Queue_Management_System {
         return count;
     }
 
-    private static boolean setName(FoodQueue[] queueType, String userName) {
+    private static boolean setName(FoodQueue[] queueType, String firstName, String secondName, int noBurgers) {
         for (int index=0;index< queueType.length;index++){
             if (queueType[index] == null){
-                queueType[index] = userName;
+                FoodQueue temp = new FoodQueue(firstName,secondName,noBurgers);
+                queueType[index] = temp;
                 return false;
             }
         }

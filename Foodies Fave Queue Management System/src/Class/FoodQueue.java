@@ -5,8 +5,8 @@ public class FoodQueue {
     int noOfBurgers;
 
 
-    public FoodQueue(Customer customer, int noOfBurgers) {
-        this.customer = customer;
+    public FoodQueue(String fistName, String secondName, int noOfBurgers) {
+        this.customer = new Customer(fistName,secondName);
         this.noOfBurgers = noOfBurgers;
     }
 

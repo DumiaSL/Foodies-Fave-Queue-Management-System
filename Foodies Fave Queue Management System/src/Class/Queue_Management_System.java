@@ -1,9 +1,6 @@
 package Class;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -198,13 +195,23 @@ public class Queue_Management_System {
             FileWriter fileWriter = new FileWriter(DATABASE_NAME);
             // Write the data to the file
             fileWriter.write(BURGERS_STOCK + "\n");
-            String temp_data = "";
-            temp_data = String.join(",",queue1)+","+String.join(",",queue2)+","+String.join(",",queue3);
-            fileWriter.write(temp_data);
+            queueWrite(fileWriter,queue1);
+            queueWrite(fileWriter,queue2);
+            queueWrite(fileWriter,queue3);
             fileWriter.close();
             System.out.println("Data has been saved to the file.");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void queueWrite(FileWriter fileWriter, FoodQueue[] queueType) throws IOException {
+        for (FoodQueue order:queueType){
+            if (order!=null){
+                fileWriter.write(order.customer.firstName+","+order.customer.lastName+","+order.noOfBurgers+"\n");
+            }else {
+                fileWriter.write("null"+"\n");
+            }
         }
     }
 
@@ -231,6 +238,7 @@ public class Queue_Management_System {
             servedCashier(queue2);
         }else {
             servedCashier(queue3);
+
         }
     }
 

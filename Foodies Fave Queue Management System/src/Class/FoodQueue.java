@@ -1,6 +1,8 @@
 package Class;
 
-public class FoodQueue {
+import java.io.Serializable;
+
+public class FoodQueue implements Serializable {
     Customer customer;
     int noOfBurgers;
 

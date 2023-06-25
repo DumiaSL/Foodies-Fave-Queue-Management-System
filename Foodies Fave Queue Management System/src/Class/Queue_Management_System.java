@@ -41,7 +41,7 @@ public class Queue_Management_System {
 //                    case "104", "PCQ" -> removeServedCustomer();
                     case "105", "VCS" -> customersSortedInAlphabetical();
                     case "106", "SPD" -> saveToFile();
-//                    case "107", "LPD" -> ReadFromFile();
+                    case "107", "LPD" -> ReadFromFile();
                     case "108", "STK" -> viewRemainingBurgersStock();
                     case "109", "AFS" -> addBurgersToStock();
                     case "110", "IFQ" -> checkIncomeEachQueue();
@@ -145,52 +145,54 @@ public class Queue_Management_System {
         System.out.println("Remaining burgers Stock: " + BURGERS_STOCK);
     }
 
-//    private static void ReadFromFile() {
-//        try {
-//            FileReader fileReader = new FileReader(DATABASE_NAME);
-//            BufferedReader bufferedReader = new BufferedReader(fileReader);
-//
-//            String line;
-//            int count = 1;
-//            while ((line = bufferedReader.readLine()) != null) {
-//                // Get each line of the file
-//                if (count == 1) {
-//                    BURGERS_STOCK = Integer.parseInt(line);
-//                    count++;
-//                } else {
-//                    String[] saved_names = line.split(",");
-//                    for (int i = 0; i < queue1.length; i++) {
-//                        if (saved_names[i].equals("null")){
-//                            queue1[i] = null;
-//                        }else {
-//                            queue1[i] = saved_names[i];
-//                        }
-//                    }
-//
-//                    for (int i = 0; i < queue2.length; i++) {
-//                        if (saved_names[i + queue1.length].equals("null")){
-//                            queue2[i] = null;
-//                        }else {
-//                            queue2[i] = saved_names[i + queue1.length];
-//                        }
-//                    }
-//
-//                    for (int i = 0; i < queue3.length; i++) {
-//                        if (saved_names[i + queue1.length + queue2.length].equals("null")){
-//                            queue3[i] = null;
-//                        }else {
-//                            queue3[i] = saved_names[i + queue1.length + queue2.length];
-//                        }
-//                    }
-//                }
-//            }
-//            // Close the buffered reader
-//            bufferedReader.close();
-//            System.out.println("Successfully update the system using data!");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    private static void ReadFromFile() {
+        try {
+            FileReader fileReader = new FileReader(DATABASE_NAME);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            String line;
+            int count = 1;
+            int tempCount = 0;
+            while ((line = bufferedReader.readLine()) != null) {
+                System.out.println("c-"+count);
+                System.out.println("t-"+tempCount);
+                // Get each line of the file
+                if (count == 1) {
+                    BURGERS_STOCK = Integer.parseInt(line);
+                } else if (count < 4) {
+                    if (line.equals("null")){
+                        queue1[tempCount] = null;
+                    }else {
+                        String[] temp = line.split(",");
+                        queue1[tempCount] = new FoodQueue(temp[0],temp[1],Integer.parseInt(temp[2]));
+                    }
+                } else if (count < 7) {
+                    if (count==4)tempCount=0;
+                    if (line.equals("null")){
+                        queue2[tempCount] = null;
+                    }else {
+                        String[] temp = line.split(",");
+                        queue2[tempCount] = new FoodQueue(temp[0],temp[1],Integer.parseInt(temp[2]));
+                    }
+                }else {
+                    if (count==7)tempCount=0;
+                    if (line.equals("null")){
+                        queue3[tempCount] = null;
+                    }else {
+                        String[] temp = line.split(",");
+                        queue3[tempCount] = new FoodQueue(temp[0],temp[1],Integer.parseInt(temp[2]));
+                    }
+                }
+                if (count!=1)tempCount++;
+                count++;
+            }
+            // Close the buffered reader
+            bufferedReader.close();
+            System.out.println("Successfully update the system using data!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private static void saveToFile() {
         try {

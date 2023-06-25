@@ -425,7 +425,7 @@ public class Array_Main {
                 break;
             }
         }
-        if (queueEmpty) {
+        if (!queueEmpty) {
             System.out.println(queueName + " all slots free.");
         }
     }

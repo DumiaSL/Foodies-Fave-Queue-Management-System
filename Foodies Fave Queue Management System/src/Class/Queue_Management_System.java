@@ -1,6 +1,8 @@
 package Class;
 
 import java.io.*;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -35,11 +37,11 @@ public class Queue_Management_System {
                     case "100", "VFQ" -> viewAllQueues();
                     case "101", "VEQ" -> viewAllEmptyQueues();
                     case "102", "ACQ" -> addCustomerToQueue();
-                    case "103", "RCQ" -> removeCustomerFromQueue();
-                    case "104", "PCQ" -> removeServedCustomer();
+//                    case "103", "RCQ" -> removeCustomerFromQueue();
+//                    case "104", "PCQ" -> removeServedCustomer();
                     case "105", "VCS" -> customersSortedInAlphabetical();
                     case "106", "SPD" -> saveToFile();
-                    case "107", "LPD" -> ReadFromFile();
+//                    case "107", "LPD" -> ReadFromFile();
                     case "108", "STK" -> viewRemainingBurgersStock();
                     case "109", "AFS" -> addBurgersToStock();
                     case "110", "IFQ" -> checkIncomeEachQueue();
@@ -143,52 +145,52 @@ public class Queue_Management_System {
         System.out.println("Remaining burgers Stock: " + BURGERS_STOCK);
     }
 
-    private static void ReadFromFile() {
-        try {
-            FileReader fileReader = new FileReader(DATABASE_NAME);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-            String line;
-            int count = 1;
-            while ((line = bufferedReader.readLine()) != null) {
-                // Get each line of the file
-                if (count == 1) {
-                    BURGERS_STOCK = Integer.parseInt(line);
-                    count++;
-                } else {
-                    String[] saved_names = line.split(",");
-                    for (int i = 0; i < queue1.length; i++) {
-                        if (saved_names[i].equals("null")){
-                            queue1[i] = null;
-                        }else {
-                            queue1[i] = saved_names[i];
-                        }
-                    }
-
-                    for (int i = 0; i < queue2.length; i++) {
-                        if (saved_names[i + queue1.length].equals("null")){
-                            queue2[i] = null;
-                        }else {
-                            queue2[i] = saved_names[i + queue1.length];
-                        }
-                    }
-
-                    for (int i = 0; i < queue3.length; i++) {
-                        if (saved_names[i + queue1.length + queue2.length].equals("null")){
-                            queue3[i] = null;
-                        }else {
-                            queue3[i] = saved_names[i + queue1.length + queue2.length];
-                        }
-                    }
-                }
-            }
-            // Close the buffered reader
-            bufferedReader.close();
-            System.out.println("Successfully update the system using data!");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    private static void ReadFromFile() {
+//        try {
+//            FileReader fileReader = new FileReader(DATABASE_NAME);
+//            BufferedReader bufferedReader = new BufferedReader(fileReader);
+//
+//            String line;
+//            int count = 1;
+//            while ((line = bufferedReader.readLine()) != null) {
+//                // Get each line of the file
+//                if (count == 1) {
+//                    BURGERS_STOCK = Integer.parseInt(line);
+//                    count++;
+//                } else {
+//                    String[] saved_names = line.split(",");
+//                    for (int i = 0; i < queue1.length; i++) {
+//                        if (saved_names[i].equals("null")){
+//                            queue1[i] = null;
+//                        }else {
+//                            queue1[i] = saved_names[i];
+//                        }
+//                    }
+//
+//                    for (int i = 0; i < queue2.length; i++) {
+//                        if (saved_names[i + queue1.length].equals("null")){
+//                            queue2[i] = null;
+//                        }else {
+//                            queue2[i] = saved_names[i + queue1.length];
+//                        }
+//                    }
+//
+//                    for (int i = 0; i < queue3.length; i++) {
+//                        if (saved_names[i + queue1.length + queue2.length].equals("null")){
+//                            queue3[i] = null;
+//                        }else {
+//                            queue3[i] = saved_names[i + queue1.length + queue2.length];
+//                        }
+//                    }
+//                }
+//            }
+//            // Close the buffered reader
+//            bufferedReader.close();
+//            System.out.println("Successfully update the system using data!");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private static void saveToFile() {
         try {
@@ -215,32 +217,32 @@ public class Queue_Management_System {
         }
     }
 
-    private static void removeServedCustomer() {
-        int cashierNumber;
-        while (true) {
-            System.out.print("Enter relevant cashier want to served [1,2,3]: ");
-            try {
-                cashierNumber = scan.nextInt();
-                if (cashierNumber == 1 || cashierNumber == 2 || cashierNumber == 3){
-                    break;
-                }
-                System.out.println("Please enter correct cashier number");
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input! Please enter a valid number.");
-                // Clear the invalid input from the scanner
-                scan.next();
-            }
-        }
-
-        if (cashierNumber == 1){
-            servedCashier(queue1);
-        } else if (cashierNumber == 2){
-            servedCashier(queue2);
-        }else {
-            servedCashier(queue3);
-
-        }
-    }
+//    private static void removeServedCustomer() {
+//        int cashierNumber;
+//        while (true) {
+//            System.out.print("Enter relevant cashier want to served [1,2,3]: ");
+//            try {
+//                cashierNumber = scan.nextInt();
+//                if (cashierNumber == 1 || cashierNumber == 2 || cashierNumber == 3){
+//                    break;
+//                }
+//                System.out.println("Please enter correct cashier number");
+//            } catch (InputMismatchException e) {
+//                System.out.println("Invalid input! Please enter a valid number.");
+//                // Clear the invalid input from the scanner
+//                scan.next();
+//            }
+//        }
+//
+//        if (cashierNumber == 1){
+//            servedCashier(queue1);
+//        } else if (cashierNumber == 2){
+//            servedCashier(queue2);
+//        }else {
+//            servedCashier(queue3);
+//
+//        }
+//    }
 
     private static void servedCashier(String[] queueType) {
         boolean checkFlag = false;
@@ -312,42 +314,42 @@ public class Queue_Management_System {
         System.out.println();
     }
 
-    private static void removeCustomerFromQueue() {
-        String removeName;
-        while (true){
-            System.out.print("Enter the name of the customer to remove: ");
-            removeName = scan.next();
-            if (!removeName.isEmpty()){
-                break;
-            }else {
-                System.out.println("Enter correct name!!");
-            }
-        }
-
-        int cashierNumber;
-        while (true) {
-            System.out.print("Enter relevant cashier want to served [1,2,3]: ");
-            try {
-                cashierNumber = scan.nextInt();
-                if (cashierNumber == 1 || cashierNumber == 2 || cashierNumber == 3){
-                    break;
-                }
-                System.out.println("Please enter correct cashier number");
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input! Please enter a valid number.");
-                // Clear the invalid input from the scanner
-                scan.next();
-            }
-        }
-
-        if (cashierNumber == 1){
-            removeCustomer(queue1,removeName);
-        } else if (cashierNumber == 2){
-            removeCustomer(queue2,removeName);
-        }else {
-            removeCustomer(queue3,removeName);
-        }
-    }
+//    private static void removeCustomerFromQueue() {
+//        String removeName;
+//        while (true){
+//            System.out.print("Enter the name of the customer to remove: ");
+//            removeName = scan.next();
+//            if (!removeName.isEmpty()){
+//                break;
+//            }else {
+//                System.out.println("Enter correct name!!");
+//            }
+//        }
+//
+//        int cashierNumber;
+//        while (true) {
+//            System.out.print("Enter relevant cashier want to served [1,2,3]: ");
+//            try {
+//                cashierNumber = scan.nextInt();
+//                if (cashierNumber == 1 || cashierNumber == 2 || cashierNumber == 3){
+//                    break;
+//                }
+//                System.out.println("Please enter correct cashier number");
+//            } catch (InputMismatchException e) {
+//                System.out.println("Invalid input! Please enter a valid number.");
+//                // Clear the invalid input from the scanner
+//                scan.next();
+//            }
+//        }
+//
+//        if (cashierNumber == 1){
+//            removeCustomer(queue1,removeName);
+//        } else if (cashierNumber == 2){
+//            removeCustomer(queue2,removeName);
+//        }else {
+//            removeCustomer(queue3,removeName);
+//        }
+//    }
 
     private static void removeCustomer(String[] queueType, String removeName) {
         boolean checkFlag = false;
@@ -393,22 +395,22 @@ public class Queue_Management_System {
             int freeQueue3 = getFreesLots(queue3);
 
             int cashierNumber = 0;
-            int minNumber = Integer.MAX_VALUE;
-            int[] freeQueueArray = {freeQueue1, freeQueue2, freeQueue3};
+            int maxNumber = Integer.MIN_VALUE;
+            Integer[] freeQueueArray = {freeQueue1, freeQueue2, freeQueue3};
 
             for (int i = 0; i < freeQueueArray.length; i++) {
-                if (freeQueueArray[i] < minNumber) {
-                    minNumber = freeQueueArray[i];
+                if (freeQueueArray[i] > maxNumber) {
+                    maxNumber = freeQueueArray[i];
                     cashierNumber = i + 1;
                 }
             }
 
             if (cashierNumber == 1){
-                if (setName(queue1,firstName,secondName,noBurgers)) System.out.println("Sorry! No slots in Cashier 1");
+                if (setName(queue1,firstName,secondName,noBurgers," cashier 1")) System.out.println("Sorry! No slots in Cashier 1");
             } else if (cashierNumber == 2){
-                if (setName(queue2, firstName, secondName, noBurgers)) System.out.println("Sorry! No slots in Cashier 2");
+                if (setName(queue2, firstName, secondName, noBurgers," cashier 2")) System.out.println("Sorry! No slots in Cashier 2");
             }else {
-                if (setName(queue3, firstName, secondName, noBurgers)) System.out.println("Sorry! No slots in Cashier 3");
+                if (setName(queue3, firstName, secondName, noBurgers," cashier 3")) System.out.println("Sorry! No slots in Cashier 3");
             }
         }else {
             System.out.println("All Cashiers not available!!");
@@ -436,14 +438,16 @@ public class Queue_Management_System {
                 count++;
             }
         }
+        System.out.println(count);
         return count;
     }
 
-    private static boolean setName(FoodQueue[] queueType, String firstName, String secondName, int noBurgers) {
+    private static boolean setName(FoodQueue[] queueType, String firstName, String secondName, int noBurgers, String cashierType) {
         for (int index=0;index< queueType.length;index++){
             if (queueType[index] == null){
                 FoodQueue temp = new FoodQueue(firstName,secondName,noBurgers);
                 queueType[index] = temp;
+                System.out.println("Customer order - "+cashierType+" slot - "+(index+1));
                 return false;
             }
         }
@@ -476,12 +480,13 @@ public class Queue_Management_System {
     private static void checkQueueEmpty(FoodQueue[] queueType, String queueName) {
         boolean queueEmpty = false;
         for (FoodQueue order : queueType) {
+            System.out.println(order);
             if (order != null) {
                 queueEmpty = true;
                 break;
             }
         }
-        if (queueEmpty) {
+        if (!queueEmpty) {
             System.out.println(queueName + " all slots free.");
         }
     }

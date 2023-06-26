@@ -3,8 +3,8 @@ package Class;
 import java.io.Serializable;
 
 public class Customer implements Serializable {
-    String firstName;
-    String lastName;
+    private String firstName;
+    private String lastName;
 
     public Customer(String firstName, String lastName) {
         this.firstName = firstName;

@@ -3,8 +3,8 @@ package Class;
 import java.io.Serializable;
 
 public class FoodQueue implements Serializable {
-    Customer customer;
-    int noOfBurgers;
+    private Customer customer;
+    private int noOfBurgers;
 
 
     public FoodQueue(String fistName, String secondName, int noOfBurgers) {

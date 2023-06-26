@@ -267,7 +267,7 @@ public class Array_Main {
         for (int i = 0; i < tempArr.length - 1; i++) {
             boolean checkFlag = false;
             for (int j = 0; j < tempArr.length - i - 1; j++) {
-                if (tempArr[j] == null || (tempArr[j + 1] != null && tempArr[j].compareToIgnoreCase(tempArr[j + 1]) > 0)) {
+                if (tempArr[j + 1] != null && tempArr[j].compareToIgnoreCase(tempArr[j + 1]) > 0) {
                     // Swap elements if they are in the wrong order
                     String temp = tempArr[j];
                     tempArr[j] = tempArr[j + 1];

@@ -154,8 +154,6 @@ public class Queue_Management_System {
             int count = 1;
             int tempCount = 0;
             while ((line = bufferedReader.readLine()) != null) {
-                System.out.println("c-"+count);
-                System.out.println("t-"+tempCount);
                 // Get each line of the file
                 if (count == 1) {
                     BURGERS_STOCK = Integer.parseInt(line);
@@ -280,10 +278,10 @@ public class Queue_Management_System {
 
     public static void bubbleSort(FoodQueue[] arr, String queueType) {
         FoodQueue[] tempArr = arr.clone();
-        for (int i = 0; i < arr.length - 1; i++) {
+        for (int i = 0; i < tempArr.length - 1; i++) {
             boolean checkFlag = false;
-            for (int j = 0; j < arr.length - i - 1; j++) {
-                if (arr[j] == null || (arr[j + 1] != null && (arr[j].customer.firstName+" "+ arr[j].customer.lastName).compareToIgnoreCase(arr[j + 1].customer.firstName+" "+ arr[j+1].customer.lastName) > 0)) {
+            for (int j = 0; j < tempArr.length - i - 1; j++) {
+                if (tempArr[j+1] !=null  && ( tempArr[j].customer.firstName+" "+ tempArr[j].customer.firstName ).compareToIgnoreCase(tempArr[j + 1].customer.firstName+" "+ tempArr[j+1].customer.lastName ) > 0) {
                     // Swap elements if they are in the wrong order
                     FoodQueue temp = tempArr[j];
                     tempArr[j] = tempArr[j + 1];

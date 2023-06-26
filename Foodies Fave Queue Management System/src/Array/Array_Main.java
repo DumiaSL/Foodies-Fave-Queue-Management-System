@@ -264,10 +264,10 @@ public class Array_Main {
 
     public static void bubbleSort(String[] arr, String queueType) {
         String[] tempArr = arr.clone();
-        for (int i = 0; i < arr.length - 1; i++) {
+        for (int i = 0; i < tempArr.length - 1; i++) {
             boolean checkFlag = false;
-            for (int j = 0; j < arr.length - i - 1; j++) {
-                if (arr[j] == null || (arr[j + 1] != null && arr[j].compareToIgnoreCase(arr[j + 1]) > 0)) {
+            for (int j = 0; j < tempArr.length - i - 1; j++) {
+                if (tempArr[j] == null || (tempArr[j + 1] != null && tempArr[j].compareToIgnoreCase(tempArr[j + 1]) > 0)) {
                     // Swap elements if they are in the wrong order
                     String temp = tempArr[j];
                     tempArr[j] = tempArr[j + 1];

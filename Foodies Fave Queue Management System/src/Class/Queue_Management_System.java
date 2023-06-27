@@ -239,38 +239,20 @@ public class Queue_Management_System {
 
         if (cashierNumber == 1) {
             servedCashier(queue1, cashierNumber);
+            if (!waitingQueue.isEmpty())queue1[queue1.length-1] = addWaitingOrder();
         } else if (cashierNumber == 2) {
             servedCashier(queue2, cashierNumber);
+            if (!waitingQueue.isEmpty())queue2[queue1.length-1] = addWaitingOrder();
         } else {
             servedCashier(queue3, cashierNumber);
-        }
-        if (!waitingQueue.isEmpty()){
-            int freeQueue1 = getFreeSlots(queue1);
-            int freeQueue2 = getFreeSlots(queue2);
-            int freeQueue3 = getFreeSlots(queue3);
-
-            int allocateCashierNumber = 0;
-            int maxNumber = Integer.MIN_VALUE;
-            Integer[] freeQueueArray = {freeQueue1, freeQueue2, freeQueue3};
-
-            for (int i = 0; i < freeQueueArray.length; i++) {
-                if (freeQueueArray[i] > maxNumber) {
-                    maxNumber = freeQueueArray[i];
-                    allocateCashierNumber = i + 1;
-                }
-            }
-
-            if (allocateCashierNumber == 1) {
-                addToCashier(queue1);
-            } else if (allocateCashierNumber == 2) {
-                addToCashier(queue2);
-            } else {
-                addToCashier(queue3);
-            }
+            if (!waitingQueue.isEmpty())queue3[queue1.length-1] = addWaitingOrder();
         }
     }
 
-    private static void addToCashier(FoodQueue[] queue1) {
+    private static FoodQueue addWaitingOrder() {
+        FoodQueue tempOrder = waitingQueue.get(0);
+        waitingQueue.remove(0);
+        return tempOrder;
     }
 
     private static void servedCashier(FoodQueue[] queueType, int cashierNumber) {
@@ -423,7 +405,6 @@ public class Queue_Management_System {
             }
         }
         if (checkAvailable()) {
-
             int freeQueue1 = getFreeSlots(queue1);
             int freeQueue2 = getFreeSlots(queue2);
             int freeQueue3 = getFreeSlots(queue3);

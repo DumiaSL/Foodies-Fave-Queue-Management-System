@@ -1,6 +1,7 @@
 package Class;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -12,6 +13,7 @@ public class Queue_Management_System {
     private static FoodQueue[] queue1 = new FoodQueue[2];
     private static FoodQueue[] queue2 = new FoodQueue[3];
     private static FoodQueue[] queue3 = new FoodQueue[5];
+    private static ArrayList<FoodQueue> waitingQueue = new ArrayList<FoodQueue>();
 
     // Stock information
     private static final int MAX_BURGERS_STOCK = 50;
@@ -241,8 +243,34 @@ public class Queue_Management_System {
             servedCashier(queue2, cashierNumber);
         } else {
             servedCashier(queue3, cashierNumber);
-
         }
+        if (!waitingQueue.isEmpty()){
+            int freeQueue1 = getFreeSlots(queue1);
+            int freeQueue2 = getFreeSlots(queue2);
+            int freeQueue3 = getFreeSlots(queue3);
+
+            int allocateCashierNumber = 0;
+            int maxNumber = Integer.MIN_VALUE;
+            Integer[] freeQueueArray = {freeQueue1, freeQueue2, freeQueue3};
+
+            for (int i = 0; i < freeQueueArray.length; i++) {
+                if (freeQueueArray[i] > maxNumber) {
+                    maxNumber = freeQueueArray[i];
+                    allocateCashierNumber = i + 1;
+                }
+            }
+
+            if (allocateCashierNumber == 1) {
+                addToCashier(queue1);
+            } else if (allocateCashierNumber == 2) {
+                addToCashier(queue2);
+            } else {
+                addToCashier(queue3);
+            }
+        }
+    }
+
+    private static void addToCashier(FoodQueue[] queue1) {
     }
 
     private static void servedCashier(FoodQueue[] queueType, int cashierNumber) {
@@ -374,31 +402,31 @@ public class Queue_Management_System {
     }
 
     private static void addCustomerToQueue() {
-        if (checkAvailable()) {
-            String firstName = getValidateName("First");
-            String secondName = getValidateName("Second");
+        String firstName = getValidateName("First");
+        String secondName = getValidateName("Second");
 
-            int noBurgers;
+        int noBurgers;
 
-            while (true) {
-                System.out.print("Enter Number of burgers : ");
-                try {
-                    noBurgers = scan.nextInt();
-                    if (noBurgers <= MAX_BURGERS_STOCK) {
-                        break;
-                    } else {
-                        System.out.println("Please enter <" + MAX_BURGERS_STOCK + " orders");
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("Invalid input! Please enter a valid number.");
-                    // Clear the invalid input from the scanner
-                    scan.next();
+        while (true) {
+            System.out.print("Enter Number of burgers : ");
+            try {
+                noBurgers = scan.nextInt();
+                if (noBurgers <= MAX_BURGERS_STOCK) {
+                    break;
+                } else {
+                    System.out.println("Please enter <" + MAX_BURGERS_STOCK + " orders");
                 }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a valid number.");
+                // Clear the invalid input from the scanner
+                scan.next();
             }
+        }
+        if (checkAvailable()) {
 
-            int freeQueue1 = getFreesLots(queue1);
-            int freeQueue2 = getFreesLots(queue2);
-            int freeQueue3 = getFreesLots(queue3);
+            int freeQueue1 = getFreeSlots(queue1);
+            int freeQueue2 = getFreeSlots(queue2);
+            int freeQueue3 = getFreeSlots(queue3);
 
             int cashierNumber = 0;
             int maxNumber = Integer.MIN_VALUE;
@@ -422,7 +450,8 @@ public class Queue_Management_System {
                     System.out.println("Sorry! No slots in Cashier 3");
             }
         } else {
-            System.out.println("All Cashiers not available!!");
+            System.out.println("All Cashiers not available!!Added to waiting Queue");
+            waitingQueue.add(new FoodQueue(firstName,secondName,noBurgers));
         }
     }
 
@@ -440,7 +469,7 @@ public class Queue_Management_System {
         return userName;
     }
 
-    private static int getFreesLots(FoodQueue[] queueType) {
+    private static int getFreeSlots(FoodQueue[] queueType) {
         int count = 0;
         for (FoodQueue order : queueType) {
             if (order == null) {
